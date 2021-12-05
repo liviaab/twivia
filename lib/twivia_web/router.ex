@@ -7,6 +7,9 @@ defmodule TwiviaWeb.Router do
 
   scope "/api", TwiviaWeb do
     pipe_through :api
+
+    resources "/users", UserController
+    resources "/tweets", TweetController, except: [:update]
   end
 
   # Enables LiveDashboard only for development
