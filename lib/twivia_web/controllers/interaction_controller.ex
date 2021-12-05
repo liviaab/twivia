@@ -15,7 +15,6 @@ defmodule TwiviaWeb.InteractionController do
     with {:ok, %Interaction{} = interaction} <- Tweets.create_interaction(interaction_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", Routes.interaction_path(conn, :show, interaction))
       |> render("show.json", interaction: interaction)
     end
   end
