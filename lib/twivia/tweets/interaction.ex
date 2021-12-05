@@ -6,7 +6,7 @@ defmodule Twivia.Tweets.Interaction do
     field :author_id, :integer
     field :content, :string
     field :tweet_id, :integer
-    field :type, :string
+    field :type, Ecto.Enum, values: [:favorite, :retweet, :reply]
 
     timestamps()
   end
