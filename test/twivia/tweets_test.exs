@@ -58,4 +58,64 @@ defmodule Twivia.TweetsTest do
       assert %Ecto.Changeset{} = Tweets.change_tweet(tweet)
     end
   end
+
+  describe "interactions" do
+    alias Twivia.Tweets.Interaction
+
+    import Twivia.TweetsFixtures
+
+    @invalid_attrs %{author_id: nil, content: nil, tweet_id: nil, type: nil}
+
+    test "list_interactions/0 returns all interactions" do
+      interaction = interaction_fixture()
+      assert Tweets.list_interactions() == [interaction]
+    end
+
+    test "get_interaction!/1 returns the interaction with given id" do
+      interaction = interaction_fixture()
+      assert Tweets.get_interaction!(interaction.id) == interaction
+    end
+
+    test "create_interaction/1 with valid data creates a interaction" do
+      valid_attrs = %{author_id: 42, content: "some content", tweet_id: 42, type: "some type"}
+
+      assert {:ok, %Interaction{} = interaction} = Tweets.create_interaction(valid_attrs)
+      assert interaction.author_id == 42
+      assert interaction.content == "some content"
+      assert interaction.tweet_id == 42
+      assert interaction.type == "some type"
+    end
+
+    test "create_interaction/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Tweets.create_interaction(@invalid_attrs)
+    end
+
+    test "update_interaction/2 with valid data updates the interaction" do
+      interaction = interaction_fixture()
+      update_attrs = %{author_id: 43, content: "some updated content", tweet_id: 43, type: "some updated type"}
+
+      assert {:ok, %Interaction{} = interaction} = Tweets.update_interaction(interaction, update_attrs)
+      assert interaction.author_id == 43
+      assert interaction.content == "some updated content"
+      assert interaction.tweet_id == 43
+      assert interaction.type == "some updated type"
+    end
+
+    test "update_interaction/2 with invalid data returns error changeset" do
+      interaction = interaction_fixture()
+      assert {:error, %Ecto.Changeset{}} = Tweets.update_interaction(interaction, @invalid_attrs)
+      assert interaction == Tweets.get_interaction!(interaction.id)
+    end
+
+    test "delete_interaction/1 deletes the interaction" do
+      interaction = interaction_fixture()
+      assert {:ok, %Interaction{}} = Tweets.delete_interaction(interaction)
+      assert_raise Ecto.NoResultsError, fn -> Tweets.get_interaction!(interaction.id) end
+    end
+
+    test "change_interaction/1 returns a interaction changeset" do
+      interaction = interaction_fixture()
+      assert %Ecto.Changeset{} = Tweets.change_interaction(interaction)
+    end
+  end
 end

@@ -18,4 +18,21 @@ defmodule Twivia.TweetsFixtures do
 
     tweet
   end
+
+  @doc """
+  Generate a interaction.
+  """
+  def interaction_fixture(attrs \\ %{}) do
+    {:ok, interaction} =
+      attrs
+      |> Enum.into(%{
+        author_id: 42,
+        content: "some content",
+        tweet_id: 42,
+        type: "some type"
+      })
+      |> Twivia.Tweets.create_interaction()
+
+    interaction
+  end
 end
